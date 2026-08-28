@@ -1,51 +1,6 @@
-const express = require("express");
+const app = require("./app");
 const connectDB = require("./config/db");
-const cookieParser = require("cookie-parser");
-const logTransacciones = require("./middleware/logMiddleware");
-const cors = require("cors");
-const path = require("path");
-const app = express();
-
-// Body parser
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Logger global
 const logger = require("./config/logger");
-global.logger = logger;
-
-// Middlewares globales
-app.use(cookieParser());
-app.use(
-    cors({
-        origin: process.env.CLIENT_URL || "http://localhost:5173", // debe de ser el puerto de React
-        credentials: true, // Permite que las cookies pasen
-    }),
-);
-
-// middleware de logs
-app.use(logTransacciones);
-app.use(cookieParser()); // se me olvidó ponerlo lol
-
-// Rutas
-const authRoutes = require("./routes/authRoutes");
-const usuarioRoutes = require("./routes/usuarioRoutes");
-const servicioRoutes = require("./routes/servicioRoutes");
-const empresaRoutes = require("./routes/empresaRoutes");
-const empleadoRoutes = require("./routes/empleadoRoutes");
-const suspensionRoutes = require("./routes/suspensionRoutes");
-const citasRoutes = require("./routes/citaRoutes");
-const reporteRoutes = require("./routes/reporteRoutes");
-
-// importar rutas
-app.use("/api/auth", authRoutes);
-app.use("/api/usuarios", usuarioRoutes);
-app.use("/api/servicios", servicioRoutes);
-app.use("/api/empresa", empresaRoutes);
-app.use("/api/empleados", empleadoRoutes);
-app.use("/api/suspensiones", suspensionRoutes);
-app.use("/api/citas", citasRoutes);
-app.use("/api/reportes", reporteRoutes);
 
 const PORT = process.env.PORT || 5001;
 
